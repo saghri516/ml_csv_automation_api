@@ -234,6 +234,11 @@ Your API documentation is now **automatically generated**!
 
 ---
 
+## CI/CD (GitHub Actions)
+A GitHub Actions workflow (`.github/workflows/ci-cd.yml`) is included to run linting (flake8), tests (pytest + coverage + junit) and build the Docker image artifact if tests succeed. Artifacts are available in the GitHub Actions run UI (lint report, test reports, image tar).
+
+---
+
 ## 🎉 YOU'RE READY!
 
 Your FastAPI application is:

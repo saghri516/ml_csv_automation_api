@@ -17,6 +17,7 @@
 - [ ] Setup instructions verified
 - [ ] Error messages documented
 - [ ] FAQ created with common issues
+- [ ] CI/CD workflow added and passing (check `.github/workflows/ci-cd.yml` and artifacts in Actions run)
 
 ### Security
 - [ ] API key authentication configured

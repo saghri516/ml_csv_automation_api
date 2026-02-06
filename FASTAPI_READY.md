@@ -362,6 +362,9 @@ Ready: YES
 python app.py
 ```
 
+## CI/CD (GitHub Actions)
+There is a CI/CD workflow at `.github/workflows/ci-cd.yml` that triggers on `push` and `pull_request` to `main`. It runs `flake8` and `pytest` and builds a Docker image tar artifact (only when tests pass). Use the GitHub Actions UI to download `flake8-report`, `test-reports`, and the `image.tar` artifact for inspection.
+
 ### Visit
 ```
 http://localhost:5000/docs

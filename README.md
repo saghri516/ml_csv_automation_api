@@ -232,3 +232,28 @@ Solution: Make sure you're in the project root directory when running scripts
 2. **gradient_boosting** - Often more accurate but slower
 3. **logistic_regression** - Fast, good for binary classification
 4. **svm** - Good for complex patterns
+
+---
+
+## CI/CD (GitHub Actions) 🔧
+We added a production-ready GitHub Actions workflow at `.github/workflows/ci-cd.yml`.
+
+**Summary**
+- **Triggers:** `push` and `pull_request` on the `main` branch
+- **Jobs:** `lint` (flake8), `test` (pytest with junit & coverage), and `build` (Docker Buildx producing `image.tar`)
+- **Build conditions:** `build` runs only if `test` succeeds
+- **Caching:** pip cache via `actions/cache` keyed on `requirements.txt`
+- **Artifacts:** `flake8-report`, `test-reports` (`junit.xml`, `coverage.xml`), and `docker-image-<sha>.tar`
+
+**Run locally**
+- Lint: `pip install flake8 && flake8 src/ tests/ --max-line-length=88`
+- Tests: `pip install pytest pytest-cov && pytest -q --maxfail=1 --junitxml=reports/junit.xml --cov=src --cov-report=xml:reports/coverage.xml`
+- Build image artifact: `docker build -t myimage:tag . && docker save myimage:tag -o image.tar`
+
+**Add a status badge to your README**
+```md
+![CI](https://github.com/<OWNER>/<REPO>/actions/workflows/ci-cd.yml/badge.svg)
+```
+Replace `<OWNER>/<REPO>` with your repository path.
+
+> Note: The workflow builds and uploads an image artifact and does not push images to any registry by default (no cloud deployment).

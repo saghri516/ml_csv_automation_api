@@ -346,31 +346,21 @@ tar -xzf data_backup_20260204.tar.gz
 
 ## CI/CD Pipeline (GitHub Actions)
 
-Create `.github/workflows/deploy.yml`:
-```yaml
-name: Deploy
+A production-ready workflow is provided at `.github/workflows/ci-cd.yml` (no cloud or registry push by default).
 
-on:
-  push:
-    branches: [main]
+**Key points**
+- **Triggers:** `push` and `pull_request` to `main`.
+- **Jobs:** `lint` (flake8), `test` (pytest with junit & coverage), and `build` (Docker Buildx producing `image.tar`). The `build` job runs only after the `test` job succeeds.
+- **Caching:** Uses `actions/cache` to cache pip packages keyed on `requirements.txt`.
+- **Artifacts:** Uploaded artifacts include `flake8-report`, `test-reports` (`junit.xml` and `coverage.xml`), and the built `image.tar`.
+- **Best practices:** concurrency cancel-in-progress, minimal permissions, separate jobs, and building with Buildx (no Docker-in-Docker).
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-      - run: pip install -r requirements.txt
-      - run: python -m unittest tests.py
+**Run checks locally:**
+- Lint: `pip install flake8 && flake8 src/ tests/ --max-line-length=88`
+- Tests: `pip install pytest pytest-cov && pytest -q --maxfail=1 --junitxml=reports/junit.xml --cov=src --cov-report=xml:reports/coverage.xml`
+- Build image artifact: `docker build -t myimage:tag . && docker save myimage:tag -o image.tar`
 
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Deploy to Docker
-        run: docker build -t ml-automation . && docker push registry/ml-automation
-```
+> Note: If you want to push images to a registry (Docker Hub or GitHub Packages), we can add a secure job that runs only on tagged releases and uses repository secrets for authentication.
 
 ---
 

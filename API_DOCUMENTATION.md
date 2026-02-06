@@ -308,3 +308,6 @@ curl http://localhost:5000/model-info
 
 ## Support
 For issues or questions, check logs at `logs/app.log`
+
+## CI/CD (GitHub Actions) 🔧
+A GitHub Actions workflow lives at `.github/workflows/ci-cd.yml`. It runs on `push`/`pull_request` to `main` and performs linting, testing (with junit coverage reports), and builds a Docker image artifact. Artifacts include the `flake8` report and test reports (JUnit and coverage XML). The build step produces an `image.tar` artifact using Docker Buildx (no registry push by default).

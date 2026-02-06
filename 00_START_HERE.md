@@ -398,6 +398,11 @@ docker-compose up -d
 4. Deploy
 ```
 
+## CI/CD (GitHub Actions) 🔧
+We added a GitHub Actions workflow at `.github/workflows/ci-cd.yml` that runs linting (flake8), tests (pytest + coverage), and builds the Docker image as an artifact (only when tests pass). The workflow triggers on `push` and `pull_request` against `main` and uploads reports and the image tar as artifacts for review.
+
+Run locally: `flake8 src/ tests/` and `pytest -q --maxfail=1 --junitxml=reports/junit.xml --cov=src`.
+
 ---
 
 ## 🎊 PROJECT STATUS

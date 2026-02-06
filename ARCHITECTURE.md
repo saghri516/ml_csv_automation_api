@@ -398,6 +398,15 @@ Production Workflow:
 │ ├─ Application Logs
 │ ├─ Request Logs
 │ ├─ Error Logs
+
+---
+
+## CI/CD (GitHub Actions)
+A CI/CD workflow is provided at `.github/workflows/ci-cd.yml`.
+- Triggers: `push` and `pull_request` on `main`.
+- Jobs: `lint`, `test`, and `build` (build only on successful tests).
+- Artifacts: lint report, test reports (`junit.xml`, `coverage.xml`), and `image.tar` (image artifact).
+- Build uses `docker/setup-buildx-action` and `docker/build-push-action` to produce a tar without pushing to a registry.
 │ └─ Audit Logs
 │
 │ Health Checks:
